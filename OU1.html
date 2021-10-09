@@ -1,0 +1,345 @@
+<!-- Styles -->
+<style>
+body { background-color: #30303d; color: #fff; }
+#chartdiv {
+  width: 100%;
+height:100%;
+}
+</style>
+
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/dark.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_dark);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
+
+var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+networkSeries.dataFields.linkWith = "linkWith";
+networkSeries.dataFields.name = "name";
+networkSeries.dataFields.id = "name";
+networkSeries.dataFields.value = "value";
+networkSeries.dataFields.children = "children";
+
+networkSeries.nodes.template.label.text = "{name}"
+networkSeries.fontSize = 12;
+networkSeries.linkWithStrength = 0;
+
+var nodeTemplate = networkSeries.nodes.template;
+nodeTemplate.tooltipText = "{name}";
+nodeTemplate.fillOpacity = 1;
+nodeTemplate.label.hideOversized = true;
+nodeTemplate.label.truncate = true;
+
+var linkTemplate = networkSeries.links.template;
+linkTemplate.strokeWidth = 1;
+var linkHoverState = linkTemplate.states.create("hover");
+linkHoverState.properties.strokeOpacity = 1;
+linkHoverState.properties.strokeWidth = 2;
+
+nodeTemplate.events.on("over", function (event) {
+    var dataItem = event.target.dataItem;
+    dataItem.childLinks.each(function (link) {
+        link.isHover = true;
+    })
+})
+
+nodeTemplate.events.on("out", function (event) {
+    var dataItem = event.target.dataItem;
+    dataItem.childLinks.each(function (link) {
+        link.isHover = false;
+    })
+})
+
+networkSeries.data = [  
+   {  
+      "name":"Chief Executive",
+      "value":202,
+      "linkWith":[  
+         "Chief Operating Officer",
+		 "ED Finance",
+		 "IT",
+		 "Chief Medical Officer",
+		 "People and Culture",
+		 "ED Strategic directions"
+      ],
+      "children":[  
+         {  
+            "name":"ED West Metro Health Service Partnership",
+            "value":50
+         },
+         {  
+            "name":"Strategic Communications and Media",
+            "value":60
+         },
+         {  
+            "name":"General Counsel",
+            "value":40
+         },
+         {  
+            "name":"Chief Information Officer",
+            "value":50
+         },
+         {  
+            "name":"Director, Research",
+            "value":50
+         },
+         {  
+            "name":"Director, RMH Foundation",
+            "value":50
+         }
+      ]
+   },
+   {  
+      "name":"Chief Operating Officer",
+      "value":150,
+      "linkWith":[  
+         "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"Cardio vascular, Renal & Endocrine",
+            "value":70
+         },
+         {  
+            "name":"Critical care & Investigative",
+            "value":80
+         },
+         {  
+            "name":"Medicine and community care",
+            "value":90
+         },
+         {  
+            "name":"Neuro sciences & Cancer",
+            "value":90
+         },
+         {  
+            "name":"Surgery, Trauma  Srugical Oncology",
+            "value":100
+         },
+         {  
+            "name":"Mental Health",
+            "value":70
+         },
+         {  
+            "name":"Access and Outpatient",
+            "value":70
+         },
+         {  
+            "name":"EMR",
+            "value":50
+         }
+      ]
+   },
+   {  
+      "name":"ED Finance",
+      "value":126,
+      "linkWith":[  
+         "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"Fin Perf & Analysis",
+            "value":80
+         },
+         {  
+            "name":"Fin shared service",
+            "value":90
+         },
+         {  
+            "name":"Procurement",
+            "value":70
+         },
+         {  
+            "name":"Supply chain",
+            "value":80
+         },
+         {  
+            "name":"Facilities mgt",
+            "value":70
+         },
+         {  
+            "name":"Capital Works",
+            "value":90
+         }
+      ]
+   },
+   
+   {  
+      "name":"Chief Medical Officer",
+      "value":158,
+      "linkWith":[  
+         "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"Medcal workforce",
+            "value":70
+         },
+         {  
+            "name":"Medical governance",
+            "value":70
+         },
+         {  
+            "name":"Medical education",
+            "value":90
+         },
+         {  
+            "name":"Medicolegal",
+            "value":70
+         },
+         {  
+            "name":"Library",
+            "value":80
+         },
+         {  
+            "name":"Infection Prevention and Surveillance",
+            "value":100
+         },
+         {  
+            "name":"Staff health clinic",
+            "value":80
+         },
+         {  
+            "name":"VIDRL",
+            "value":70
+         },
+         {  
+            "name":"VICNISS",
+            "value":75
+         }
+      ]
+   },
+   
+   {  
+      "name":"People and Culture",
+      "value":158,
+      "linkWith":[  
+         "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"OHS",
+            "value":50
+         },
+         {  
+            "name":"Employee relations",
+            "value":70
+         },
+         {  
+            "name":"Workforce relations",
+            "value":70
+         },
+         {  
+            "name":"Cultural transformation",
+            "value":80
+         },
+         {  
+            "name":"Recruitment services",
+            "value":80
+         },
+         {  
+            "name":"Employee services",
+            "value":70
+         }
+      ]
+   },
+   
+   {  
+      "name":"ED Strategic directions",
+      "value":162,
+      "linkWith":[  
+		 "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"Strategy and planning",
+            "value":50
+         },
+         {  
+            "name":"Quality & Impprovement",
+            "value":60
+         },
+         {  
+            "name":"Community Engagement",
+            "value":50
+         },
+         {  
+            "name":"BI",
+            "value":30
+         },
+         {  
+            "name":"Guidance",
+            "value":40
+         },
+         {  
+            "name":"HIS",
+            "value":30
+         },
+		 {  
+            "name":"PMO",
+            "value":35
+         }
+      ]
+   },
+   
+   
+   
+   {  
+      "name":"IT",
+      "value":100,
+      "linkWith":[  
+         "Chief Executive"
+      ],
+      "children":[  
+         {  
+            "name":"Network TL",
+            "value":60
+         },
+         {  
+            "name":"Web TL",
+            "value":50
+         },
+         {  
+            "name":"Endpoint TL",
+            "value":60
+         },
+         {  
+            "name":"Appliction TL",
+            "value":70
+         },
+         {  
+            "name":"Data TL",
+            "value":50
+         },
+         {  
+            "name":"Cloud TL",
+            "value":60
+         },
+         {  
+            "name":"IoT & Mobile",
+            "value":70
+         }
+      ]
+   }
+   
+   
+];
+
+
+}); // end am4core.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
